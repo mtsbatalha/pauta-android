@@ -1,5 +1,7 @@
 # Pauta — transcrição de voz 100% local (Fase 0: protótipo mínimo)
 
+> **Download direto do APK:** [última release](https://github.com/mtsbatalha/pauta-android/releases/latest) · [v0.1.0 (debug, arm64-v8a)](https://github.com/mtsbatalha/pauta-android/releases/download/v0.1.0/pauta-v0.1.0-debug.apk)
+
 App Android nativo (Kotlin + Jetpack Compose) que grava áudio pelo microfone e
 transcreve **inteiramente no aparelho**, sem enviar nada para a nuvem.
 
