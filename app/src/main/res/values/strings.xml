@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Pauta</string>
+
+    <!-- Tela de preparo dos modelos -->
+    <string name="setup_title">Preparar transcrição local</string>
+    <string name="setup_body">Para transcrever sem enviar nada para a nuvem, o app instala os modelos no aparelho (uma única vez):\n\n• Parakeet TDT 0.6B v3 (int8) — transcrição em 25 idiomas, incluindo português (~487 MB)\n• Silero VAD — detecção de fala (~0,6 MB)\n\nRecomendamos Wi-Fi. Depois de instalados, tudo funciona offline.</string>
+    <string name="setup_download">Baixar e instalar modelos</string>
+    <string name="setup_downloading">Baixando %1$s… %2$s</string>
+    <string name="setup_extracting">Extraindo modelo (~1–3 min)…</string>
+    <string name="setup_error">Falha na instalação</string>
+    <string name="setup_retry">Tentar de novo</string>
+    <string name="setup_privacy_note">Privacidade: seus áudios e transcrições nunca saem do aparelho. A conexão é usada apenas agora, para baixar os modelos oficiais (com verificação de checksum).</string>
+    <string name="setup_space_warning">Espaço livre insuficiente: são necessários ~2 GB livres durante a instalação.</string>
+
+    <!-- Tela principal -->
+    <string name="recorder_ready_hint">Toque para gravar. A transcrição aparece enquanto você fala.</string>
+    <string name="recorder_record">Gravar</string>
+    <string name="recorder_stop">Parar</string>
+    <string name="recorder_loading_model">Carregando modelo na memória…</string>
+    <string name="recorder_recording">Gravando</string>
+    <string name="recorder_stopping">Finalizando…</string>
+    <string name="recorder_transcript">Transcrição</string>
+    <string name="recorder_empty_segments">Fale algo — o texto aparece aqui.</string>
+    <string name="recorder_finished">Transcrição concluída</string>
+    <string name="recorder_copy">Copiar texto</string>
+    <string name="recorder_copied">Texto copiado</string>
+    <string name="recorder_new">Nova gravação</string>
+    <string name="recorder_error">Erro</string>
+    <string name="recorder_permission_needed">Permita o acesso ao microfone para gravar.</string>
+
+    <!-- Estatísticas / benchmark -->
+    <string name="stats_title">Benchmark local (Fase 0)</string>
+    <string name="stats_segments">Segmentos: %1$d</string>
+    <string name="stats_audio">Áudio: %1$s</string>
+    <string name="stats_decode">Decodificação: %1$s</string>
+    <string name="stats_rtf">RTF médio: %1$s (menor = mais rápido que o tempo real)</string>
+    <string name="stats_saved_audio">Áudio salvo em: %1$s</string>
+
+    <string name="error_generic">Algo deu errado: %1$s</string>
+</resources>
