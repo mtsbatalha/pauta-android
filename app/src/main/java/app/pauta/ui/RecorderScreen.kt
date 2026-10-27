@@ -211,6 +211,9 @@ private fun RecordingContent(state: RecorderState.Recording, onStop: () -> Unit)
 @Composable
 private fun FinishedContent(result: RecordingResult, onNewRecording: () -> Unit) {
     val context = LocalContext.current
+    // Lido aqui, no escopo do composable: dentro do onClick o contexto nao
+    // serve para buscar recursos (LocalContextGetResourceValueCall).
+    val copiedMessage = stringResource(R.string.recorder_copied)
 
     Column(
         modifier = Modifier
@@ -252,7 +255,7 @@ private fun FinishedContent(result: RecordingResult, onNewRecording: () -> Unit)
                     clipboard.setPrimaryClip(ClipData.newPlainText("pauta", result.text))
                     Toast.makeText(
                         context,
-                        context.getString(R.string.recorder_copied),
+                        copiedMessage,
                         Toast.LENGTH_SHORT,
                     ).show()
                 },
