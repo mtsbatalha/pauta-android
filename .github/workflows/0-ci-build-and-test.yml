@@ -1,0 +1,75 @@
+name: 0 - CI Build & Test
+
+# Build + quality gate for pushes and pull requests. Cada portao e um job
+# separado, para que um X vermelho diga o que partiu em vez de ser uma falha
+# opaca.
+#
+# Este workflow ESPELHA o build local: AGP 8.13.2 usa build-tools 35.0.0 e o
+# compileSdk 36 corresponde ao pacote "platforms;android-36" (sem sufixo).
+#
+# Nao ha job de emulador: o APK deste projecto so embala a ABI arm64-v8a
+# (abiFilters), por isso um emulador x86_64 nao o consegue instalar. Ver README.
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  # Queue newer runs instead of canceling active ones so CI statuses are stable.
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build, unit tests and lint
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961 # v5.0.0
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Prepare Android SDK
+        shell: bash
+        run: |
+          sdkmanager="$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager"
+          test -x "$sdkmanager" || { echo "Android SDK manager is unavailable"; exit 1; }
+          set +o pipefail
+          yes | "$sdkmanager" --licenses > /dev/null
+          set -o pipefail
+          "$sdkmanager" "platform-tools" "platforms;android-36" "build-tools;35.0.0"
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@4c125117fe7c5aed11272ec4213f602f012f89f2 # v5.0.2
+
+      - name: Unit tests, lint and APKs
+        run: ./gradlew --no-daemon testDebugUnitTest lintDebug assembleDebug assembleRelease
+
+      - name: Upload test and lint reports
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: pauta-test-reports
+          path: |
+            app/build/reports/tests/testDebugUnitTest/
+            app/build/test-results/testDebugUnitTest/
+            app/build/reports/lint-results-debug.*
+          if-no-files-found: warn
+
+      - name: Upload APKs
+        if: success()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: pauta-apks
+          path: |
+            app/build/outputs/apk/debug/*.apk
+            app/build/outputs/apk/release/*.apk
+          if-no-files-found: warn
